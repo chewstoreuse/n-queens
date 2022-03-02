@@ -116,12 +116,34 @@
     //
     // test if a specific column on this board contains a conflict
     hasColConflictAt: function (colIndex) {
-      return false; // fixme
+      let count = 0;
+      for (let key in this.attributes) {
+        if (this.attributes[key][colIndex] === 1) {
+          count++;
+        }
+
+        if (count > 1) {
+          return true;
+        }
+      }
+      return false;
     },
 
     // test if any columns on this board contain conflicts
     hasAnyColConflicts: function () {
-      return false; // fixme
+      for (let i = 0; i < this.attributes[0].length; i++) {
+        let count = 0;
+        for (let key in this.attributes) {
+          if (this.attributes[key][i]) {
+            count++;
+          }
+
+          if (count > 1) {
+            return true;
+          }
+        }
+      }
+      return false;
     },
 
 
