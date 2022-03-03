@@ -153,26 +153,147 @@
     //
     // test if a specific major diagonal on this board contains a conflict
     hasMajorDiagonalConflictAt: function (majorDiagonalColumnIndexAtFirstRow) {
-      return false; // fixme
+      var count = 0;
+      var colIndex = majorDiagonalColumnIndexAtFirstRow;
+      var rows = this.rows();
+
+      for (var r = 0; r < rows.length; r++) {
+        if (rows[r][colIndex]) {
+          count++;
+        }
+
+        colIndex++;
+      }
+
+      return count > 1;
     },
 
     // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function () {
-      return false; // fixme
+
+      // ******** DECLARE VARIABLES **********
+      // create start varaible = attributes.length - 1
+      let start = this.attributes[0].length - 1;
+      // create an 'x' variable = 0
+      var count = 0;
+      // create a starting 'y' variable = start
+      let x = 0;
+      let y = start;
+
+
+      // ******** ITERATE THROUGH Y **********
+      // while y >= 0
+      while (y >= 0) {
+        // if attributes[x][y] is truthy - attribute[y][x]
+        if (this.attributes[y][x]) {
+          // increment count
+          count++;
+        }
+
+        //if count > 1
+        if (count > 1) {
+          //return true
+          return true;
+        }
+
+        // move to the next spot
+        // increment y
+        y++;
+        // increment x
+        x++;
+
+        // reset checks
+        //if y is equal to attributes.length
+        if (y === this.attributes[0].length) {
+          //reset y's value to start - 1
+          start--;
+          y = start;
+          //reset x's value to 0
+          x = 0;
+          //reset count to 0
+          count = 0;
+        }
+
+      }
+
+
+      // ******** RESET ************
+      // start = 1
+      start = 1;
+      // set coordinate to (start, 0)
+      x = start;
+      y = 0;
+
+      // ******* ITERATE THROUGH X *********
+      // while x is less than array length
+      while (x < this.attributes.length) {
+        // if attributes[x][y] is truthy
+        if (this.attributes[y][x]) {
+          // increment count
+          count++;
+        }
+
+        //if count > 1
+        if (count > 1) {
+          //return true
+          return true;
+        }
+
+        // move to the next spot
+        // increment y
+        y++;
+        // increment x
+        x++;
+
+        // if y is equal to attributes.length + 1
+        if (y === this.attributes.length + 1) {
+          // reset y's value to 0
+          y = 0;
+          // reset x's value to start + 1
+          x = start + 1;
+        }
+      }
+
+      return false;
     },
-
-
 
     // Minor Diagonals - go from top-right to bottom-left
     // --------------------------------------------------------------
     //
     // test if a specific minor diagonal on this board contains a conflict
-    hasMinorDiagonalConflictAt: function (minorDiagonalColumnIndexAtFirstRow) {
-      return false; // fixme
+    hasMinorDiagonalConflictAt: function (minorDiagonalColumnIndexAtFirstRow, rowIndex) {
+      var rowIndex = rowIndex || 0;
+      var count = 0;
+      var colIndex = minorDiagonalColumnIndexAtFirstRow;
+      var rows = this.rows();
+
+      for (var r = rowIndex; r < rows.length; r++) {
+        if (rows[r][colIndex]) {
+          count++;
+        }
+
+        colIndex--;
+      }
+
+      return count > 1;
     },
 
     // test if any minor diagonals on this board contain conflicts
     hasAnyMinorDiagonalConflicts: function () {
+      var rows = this.rows();
+
+      for (var col = 1; col < rows.length; col++) {
+        if (this.hasMinorDiagonalConflictAt(col)) {
+          return true;
+        }
+      }
+
+      for (var row = 1; row < rows.length; row++) {
+        if (this.hasMinorDiagonalConflictAt(3, row)) {
+          return true;
+        }
+      }
+
       return false; // fixme
     }
 
